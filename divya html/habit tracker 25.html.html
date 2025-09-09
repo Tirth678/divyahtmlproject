@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Garden | Grow Your Habits</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #4CAF50;
+            --secondary: #2196F3;
+            --accent: #FF9800;
+            --light: #F5F5F5;
+            --dark: #333;
+            --success: #8BC34A;
+            --warning: #FFC107;
+            --danger: #F44336;
+            --background: linear-gradient(135deg, #83a4d4, #b6fbff);
+            --container-bg: rgba(255, 255, 255, 0.9);
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background: var(--background);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--dark);
+            overflow-x: hidden;
+            transition: background 1.5s ease;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: var(--container-bg);
+            padding: 15px 0;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--primary);
+            font-size: 28px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .date-display {
+            text-align: center;
+            background: var(--card-bg);
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .date-display p {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: var(--container-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            height: 100%;
+        }
+
+        .card-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .motivation-box {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 15px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .motivation-box p {
+            font-style: italic;
+            font-size: 18px;
+            color: var(--dark);
+        }
+
+        .habit-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .habit-form input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .habit-list {
+            list-style: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .habit-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .habit-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .habit-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .habit-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .habit-name {
+            font-weight: 500;
+        }
+
+        .habit-streak {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .habit-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .complete-btn {
+            background: var(--success);
+        }
+
+        .delete-btn {
+            background: var(--danger);
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .weekday {
+            text-align: center;
+            font-weight: 500;
+            padding: 5px;
+        }
+
+        .calendar-day {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            background: var(--card-bg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-day:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .current-day {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .has-habit {
+            position: relative;
+        }
+
+        .has-habit::after {
+            content: '';
+            position: absolute;
+            bottom: 3px;
+            width: 5px;
+            height: 5px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .scoreboard {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .score-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .score-details {
+            flex: 1;
+        }
+
+        .score-bar {
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .score-progress {
+            height: 100%;
+            background: var(--success);
+            border-radius: 5px;
+        }
+
+        .plant-visualization {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 20px;
+            background: var(--container-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .plant {
+            font-size: 100px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            transition: all 0.5s ease;
+            position: relative;
+            height: 150px;
+        }
+
+        .plant-growth {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .growth-stage {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--card-bg);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .active-stage {
+            background: var(--primary);
+            color: white;
+        }
+
+        .progress-container {
+            width: 100%;
+            background: #eee;
+            height: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .level-info {
+            font-size: 18px;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+            background: var(--container-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Login/Signup Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: var(--shadow);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-footer a {
+            color: var(--secondary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .user-actions {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <h1>Habit Garden</h1>
+                </div>
+                <div class="date-display">
+                    <p id="current-date">Loading date...</p>
+                </div>
+                <div class="user-actions">
+                    <button class="btn btn-primary" id="login-btn">Login</button>
+                    <button class="btn btn-secondary" id="signup-btn">Sign Up</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="motivation-box">
+            <p id="motivation-text">"The best time to plant a tree was 20 years ago. The second best time is now."</p>
+        </div>
+
+        <div class="plant-visualization">
+            <div class="plant" id="plant-display">
+                <i class="fas fa-seedling"></i>
+            </div>
+            <h3>Your Habit Plant - <span id="plant-stage">Seedling</span></h3>
+            <p>Your plant grows as you complete your habits!</p>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="growth-progress"></div>
+            </div>
+            
+            <div class="level-info">
+                Level <span id="current-level">1</span> - <span id="completed-habits">0</span>/5 habits completed
+            </div>
+            
+            <div class="plant-growth">
+                <div class="growth-stage active-stage" data-stage="seed" data-level="1">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <div class="growth-stage" data-stage="sprout" data-level="2">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="growth-stage" data-stage="plant" data-level="3">
+                    <i class="fas fa-tree"></i>
+                </div>
+                <div class="growth-stage" data-stage="flower" data-level="4">
+                    <i class="fas fa-spa"></i>
+                </div>
+                <div class="growth-stage" data-stage="tree" data-level="5">
+                    <i class="fas fa-tree"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="card">
+                <div class="card-title">
+                    <h2>My Habits</h2>
+                    <i class="fas fa-plus-circle" id="add-habit-btn"></i>
+                </div>
+                <div class="habit-form">
+                    <input type="text" id="habit-input" placeholder="Enter a new habit...">
+                    <button class="btn btn-primary" id="save-habit-btn">Add</button>
+                </div>
+                <ul class="habit-list" id="habit-list">
+                    <!-- Habits will be added here dynamically -->
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <h2>Calendar</h2>
+                    <div>
+                        <i class="fas fa-chevron-left" id="prev-month"></i>
+                        <span id="current-month">June 2023</span>
+                        <i class="fas fa-chevron-right" id="next-month"></i>
+                    </div>
+                </div>
+                <div class="calendar" id="calendar">
+                    <!-- Calendar will be generated here -->
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <h2>Scoreboard</h2>
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="scoreboard" id="scoreboard">
+                    <!-- Scoreboard items will be added here -->
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <h2>Habit Options</h2>
+                    <i class="fas fa-cog"></i>
+                </div>
+                <div class="habit-options">
+                    <div class="option-item">
+                        <h3>Notification Settings</h3>
+                        <p>Set reminders for your habits</p>
+                        <button class="btn btn-primary">Configure</button>
+                    </div>
+                    <div class="option-item">
+                        <h3>Habit Categories</h3>
+                        <p>Organize your habits</p>
+                        <button class="btn btn-primary">Manage</button>
+                    </div>
+                    <div class="option-item">
+                        <h3>Export Data</h3>
+                        <p>Download your progress</p>
+                        <button class="btn btn-primary">Export</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Habit Garden &copy; 2023 | Grow your habits, grow yourself</p>
+        </footer>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login to Your Garden</h2>
+            </div>
+            <div class="form-group">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" placeholder="Your email">
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" placeholder="Your password">
+            </div>
+            <button class="btn btn-primary" style="width: 100%;">Login</button>
+            <div class="form-footer">
+                <p>Don't have an account? <a id="switch-to-signup">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signup-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create Your Garden</h2>
+            </div>
+            <div class="form-group">
+                <label for="signup-name">Full Name</label>
+                <input type="text" id="signup-name" placeholder="Your name">
+            </div>
+            <div class="form-group">
+                <label for="signup-email">Email</label>
+                <input type="email" id="signup-email" placeholder="Your email">
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" placeholder="Create a password">
+            </div>
+            <button class="btn btn-primary" style="width: 100%;">Create Account</button>
+            <div class="form-footer">
+                <p>Already have an account? <a id="switch-to-login">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const currentDateElement = document.getElementById('current-date');
+        const motivationTextElement = document.getElementById('motivation-text');
+        const habitInput = document.getElementById('habit-input');
+        const saveHabitBtn = document.getElementById('save-habit-btn');
+        const habitList = document.getElementById('habit-list');
+        const calendarElement = document.getElementById('calendar');
+        const currentMonthElement = document.getElementById('current-month');
+        const prevMonthBtn = document.getElementById('prev-month');
+        const nextMonthBtn = document.getElementById('next-month');
+        const scoreboardElement = document.getElementById('scoreboard');
+        const loginBtn = document.getElementById('login-btn');
+        const signupBtn = document.getElementById('signup-btn');
+        const loginModal = document.getElementById('login-modal');
+        const signupModal = document.getElementById('signup-modal');
+        const switchToSignup = document.getElementById('switch-to-signup');
+        const switchToLogin = document.getElementById('switch-to-login');
+        const plantDisplay = document.getElementById('plant-display');
+        const growthStages = document.querySelectorAll('.growth-stage');
+        const growthProgress = document.getElementById('growth-progress');
+        const plantStageElement = document.getElementById('plant-stage');
+        const currentLevelElement = document.getElementById('current-level');
+        const completedHabitsElement = document.getElementById('completed-habits');
+
+        // App State
+        let totalCompletedHabits = 0;
+        let currentLevel = 1;
+        let habits = [];
+        let plantGrowthStage = 'seed';
+
+        // Sample data
+        const motivations = [
+            "The best time to plant a tree was 20 years ago. The second best time is now.",
+            "Your habits are the seeds of your future.",
+            "Small habits grow into big results.",
+            "Consistency is the key to growth.",
+            "Every day is a chance to grow better.",
+            "Water your habits daily and watch yourself bloom.",
+            "The grass is greener where you water it.",
+            "Growth is a process, not an event."
+        ];
+
+        const habitExamples = [
+            { name: "Exercise for 30 mins", icon: "fas fa-running", color: "#FF9800" },
+            { name: "Read for 20 mins", icon: "fas fa-book", color: "#2196F3" },
+            { name: "Meditate for 10 mins", icon: "fas fa-spa", color: "#4CAF50" },
+            { name: "Drink 8 glasses of water", icon: "fas fa-tint", color: "#00BCD4" }
+        ];
+
+        // Plant growth configuration
+        const plantGrowthStages = {
+            seed: { icon: "fas fa-seedling", color: "#8BC34A", name: "Seedling", habitsRequired: 0 },
+            sprout: { icon: "fas fa-leaf", color: "#4CAF50", name: "Sprout", habitsRequired: 5 },
+            plant: { icon: "fas fa-tree", color: "#388E3C", name: "Young Plant", habitsRequired: 10 },
+            flower: { icon: "fas fa-spa", color: "#E91E63", name: "Flowering Plant", habitsRequired: 15 },
+            tree: { icon: "fas fa-tree", color: "#795548", name: "Mature Tree", habitsRequired: 20 }
+        };
+
+        // Initialize app
+        function initApp() {
+            updateDateTime();
+            setInterval(updateDateTime, 60000); // Update time every minute
+            
+            displayRandomMotivation();
+            setInterval(displayRandomMotivation, 30000); // Change motivation every 30 seconds
+            
+            generateCalendar();
+            generateScoreboard();
+            loadHabits();
+            
+            // Load saved progress
+            loadProgress();
+            
+            // Set up event listeners
+            saveHabitBtn.addEventListener('click', addHabit);
+            prevMonthBtn.addEventListener('click', navigateMonth);
+            nextMonthBtn.addEventListener('click', navigateMonth);
+            loginBtn.addEventListener('click', () => showModal(loginModal));
+            signupBtn.addEventListener('click', () => showModal(signupModal));
+            switchToSignup.addEventListener('click', () => {
+                hideModal(loginModal);
+                showModal(signupModal);
+            });
+            switchToLogin.addEventListener('click', () => {
+                hideModal(signupModal);
+                showModal(loginModal);
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === loginModal) hideModal(loginModal);
+                if (e.target === signupModal) hideModal(signupModal);
+            });
+            
+            // Plant growth stages
+            growthStages.forEach(stage => {
+                stage.addEventListener('click', () => {
+                    growthStages.forEach(s => s.classList.remove('active-stage'));
+                    stage.classList.add('active-stage');
+                    updatePlantDisplay(stage.dataset.stage);
+                });
+            });
+            
+            // Background change based on time of day
+            updateBackgroundBasedOnTime();
+        }
+
+        // Update date and time display
+        function updateDateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            currentDateElement.textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        // Display random motivation
+        function displayRandomMotivation() {
+            const randomIndex = Math.floor(Math.random() * motivations.length);
+            motivationTextElement.textContent = `"${motivations[randomIndex]}"`;
+        }
+
+        // Generate calendar
+        function generateCalendar() {
+            // Clear previous calendar
+            calendarElement.innerHTML = '';
+            
+            // Add weekday headers
+            const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            weekdays.forEach(day => {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'weekday';
+                dayElement.textContent = day;
+                calendarElement.appendChild(dayElement);
+            });
+            
+            // Get current date for highlighting
+            const today = new Date();
+            
+            // Generate days (for demonstration, using current month)
+            const daysInMonth = 31; // Example for July
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = i;
+                
+                // Highlight current day
+                if (i === today.getDate()) {
+                    dayElement.classList.add('current-day');
+                }
+                
+                // Randomly mark some days as having habits (for demo)
+                if (Math.random() > 0.7) {
+                    dayElement.classList.add('has-habit');
+                }
+                
+                calendarElement.appendChild(dayElement);
+            }
+            
+            // Set current month display
+            currentMonthElement.textContent = today.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        }
+
+        // Navigate calendar months
+        function navigateMonth(e) {
+            // This would normally change the month
+            // For demo, we'll just regenerate the calendar
+            generateCalendar();
+            
+            // Play navigation sound
+            playSound('click');
+        }
+
+        // Generate scoreboard
+        function generateScoreboard() {
+            // Clear previous scoreboard
+            scoreboardElement.innerHTML = '';
+            
+            // Add sample scoreboard items
+            habitExamples.forEach(habit => {
+                const scoreItem = document.createElement('div');
+                scoreItem.className = 'score-item';
+                
+                const randomScore = Math.floor(Math.random() * 100);
+                
+                scoreItem.innerHTML = `
+                    <div class="score-icon" style="background: ${habit.color}">
+                        <i class="${habit.icon}"></i>
+                    </div>
+                    <div class="score-details">
+                        <h3>${habit.name}</h3>
+                        <div class="score-bar">
+                            <div class="score-progress" style="width: ${randomScore}%"></div>
+                        </div>
+                        <p>${randomScore}% complete</p>
+                    </div>
+                `;
+                
+                scoreboardElement.appendChild(scoreItem);
+            });
+        }
+
+        // Load habits
+        function loadHabits() {
+            // Clear previous habits
+            habitList.innerHTML = '';
+            
+            // Add sample habits
+            habitExamples.forEach(habit => {
+                const habitItem = document.createElement('li');
+                habitItem.className = 'habit-item';
+                
+                const randomStreak = Math.floor(Math.random() * 30);
+                
+                habitItem.innerHTML = `
+                    <div class="habit-info">
+                        <div class="habit-icon" style="background: ${habit.color}">
+                            <i class="${habit.icon}"></i>
+                        </div>
+                        <div class="habit-details">
+                            <span class="habit-name">${habit.name}</span>
+                            <span class="habit-streak">${randomStreak} day streak</span>
+                        </div>
+                    </div>
+                    <div class="habit-actions">
+                        <button class="action-btn complete-btn">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="action-btn delete-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                habitList.appendChild(habitItem);
+            });
+            
+            // Add event listeners to action buttons
+            document.querySelectorAll('.complete-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    playSound('complete');
+                    const streakElement = e.target.closest('.habit-item').querySelector('.habit-streak');
+                    const currentStreak = parseInt(streakElement.textContent);
+                    streakElement.textContent = `${currentStreak + 1} day streak`;
+                    
+                    // Update plant growth
+                    updatePlantGrowth();
+                });
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    playSound('delete');
+                    btn.closest('.habit-item').remove();
+                });
+            });
+        }
+
+        // Add new habit
+        function addHabit() {
+            const habitText = habitInput.value.trim();
+            
+            if (habitText) {
+                const habitItem = document.createElement('li');
+                habitItem.className = 'habit-item';
+                
+                // Random icon and color for demo
+                const icons = ['fas fa-running', 'fas fa-book', 'fas fa-spa', 'fas fa-tint', 'fas fa-apple-alt', 'fas fa-bed'];
+                const colors = ['#FF9800', '#2196F3', '#4CAF50', '#00BCD4', '#E91E63', '#9C27B0'];
+                
+                const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                habitItem.innerHTML = `
+                    <div class="habit-info">
+                        <div class="habit-icon" style="background: ${randomColor}">
+                            <i class="${randomIcon}"></i>
+                        </div>
+                        <div class="habit-details">
+                            <span class="habit-name">${habitText}</span>
+                            <span class="habit-streak">0 day streak</span>
+                        </div>
+                    </div>
+                    <div class="habit-actions">
+                        <button class="action-btn complete-btn">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="action-btn delete-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                habitList.appendChild(habitItem);
+                habitInput.value = '';
+                
+                // Add event listeners
+                habitItem.querySelector('.complete-btn').addEventListener('click', (e) => {
+                    playSound('complete');
+                    const streakElement = e.target.closest('.habit-item').querySelector('.habit-streak');
+                    const currentStreak = parseInt(streakElement.textContent);
+                    streakElement.textContent = `${currentStreak + 1} day streak`;
+                    
+                    // Update plant growth
+                    updatePlantGrowth();
+                });
+                
+                habitItem.querySelector('.delete-btn').addEventListener('click', () => {
+                    playSound('delete');
+                    habitItem.remove();
+                });
+                
+                playSound('add');
+            }
+        }
+
+        // Update plant growth
+        function updatePlantGrowth() {
+            totalCompletedHabits++;
+            
+            // Update UI
+            completedHabitsElement.textContent = totalCompletedHabits;
+            
+            // Determine growth stage based on completed habits
+            let newStage = 'seed';
+            let newLevel = 1;
+            
+            if (totalCompletedHabits >= plantGrowthStages.tree.habitsRequired) {
+                newStage = 'tree';
+                newLevel = 5;
+            } else if (totalCompletedHabits >= plantGrowthStages.flower.habitsRequired) {
+                newStage = 'flower';
+                newLevel = 4;
+            } else if (totalCompletedHabits >= plantGrowthStages.plant.habitsRequired) {
+                newStage = 'plant';
+                newLevel = 3;
+            } else if (totalCompletedHabits >= plantGrowthStages.sprout.habitsRequired) {
+                newStage = 'sprout';
+                newLevel = 2;
+            }
+            
+            // Update progress bar
+            const progressPercentage = (totalCompletedHabits / 20) * 100;
+            growthProgress.style.width = `${Math.min(progressPercentage, 100)}%`;
+            
+            // Update level if changed
+            if (newLevel !== currentLevel) {
+                currentLevel = newLevel;
+                currentLevelElement.textContent = currentLevel;
+                
+                // Update plant display
+                updatePlantDisplay(newStage);
+                
+                // Show level up notification
+                playSound('levelup');
+                alert(`Congratulations! Your plant has grown to level ${currentLevel}: ${plantGrowthStages[newStage].name}`);
+            }
+            
+            // Save progress
+            saveProgress();
+        }
+
+        // Update plant display
+        function updatePlantDisplay(stage) {
+            plantGrowthStage = stage;
+            const plantData = plantGrowthStages[stage];
+            
+            plantDisplay.innerHTML = `<i class="${plantData.icon}"></i>`;
+            plantDisplay.style.color = plantData.color;
+            plantStageElement.textContent = plantData.name;
+            
+            // Update active growth stage
+            growthStages.forEach(s => s.classList.remove('active-stage'));
+            document.querySelector(`.growth-stage[data-stage="${stage}"]`).classList.add('active-stage');
+            
+            playSound('grow');
+        }
+
+        // Show modal
+        function showModal(modal) {
+            modal.style.display = 'flex';
+            playSound('click');
+        }
+
+        // Hide modal
+        function hideModal(modal) {
+            modal.style.display = 'none';
+        }
+
+        // Play sound
+        function playSound(type) {
+            // In a real app, we would play actual sounds
+            console.log(`Playing ${type} sound`);
+            
+            // For demo purposes, we'll just log the sound action
+            // Actual implementation would use the Web Audio API or HTML5 audio
+        }
+
+        // Update background based on time of day
+        function updateBackgroundBasedOnTime() {
+            const hour = new Date().getHours();
+            let background;
+            
+            if (hour >= 6 && hour < 12) {
+                // Morning
+                background = 'linear-gradient(135deg, #ff7e5f, #feb47b)';
+            } else if (hour >= 12 && hour < 18) {
+                // Afternoon
+                background = 'linear-gradient(135deg, #83a4d4, #b6fbff)';
+            } else if (hour >= 18 && hour < 21) {
+                // Evening
+                background = 'linear-gradient(135deg, #4b6cb7, #182848)';
+            } else {
+                // Night
+                background = 'linear-gradient(135deg, #0f2027, #203a43, #2c5364)';
+            }
+            
+            document.body.style.background = background;
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            const progress = {
+                totalCompletedHabits,
+                currentLevel,
+                plantGrowthStage
+            };
+            
+            localStorage.setItem('habitGardenProgress', JSON.stringify(progress));
+        }
+
+        // Load progress from localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('habitGardenProgress');
+            
+            if (savedProgress) {
+                const progress = JSON.parse(savedProgress);
+                totalCompletedHabits = progress.totalCompletedHabits;
+                currentLevel = progress.currentLevel;
+                plantGrowthStage = progress.plantGrowthStage;
+                
+                // Update UI
+                completedHabitsElement.textContent = totalCompletedHabits;
+                currentLevelElement.textContent = currentLevel;
+                
+                // Update progress bar
+                const progressPercentage = (totalCompletedHabits / 20) * 100;
+                growthProgress.style.width = `${Math.min(progressPercentage, 100)}%`;
+                
+                // Update plant display
+                updatePlantDisplay(plantGrowthStage);
+            }
+        }
+
+        // Initialize the app when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
